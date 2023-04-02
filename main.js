@@ -2,7 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sgMail = require("@sendgrid/mail");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const app = express();
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Connect to MongoDB database using Mongoose
 mongoose.connect(process.env.MONGO_URI, {
@@ -56,7 +60,7 @@ app.post("/send-email", async (req, res) => {
 
     await email.save();
 
-    res.status(200).json({ message: "Email sent successfully!" });
+    res.status(200).json({ message: `Email to ${to} sent successfully!` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });
