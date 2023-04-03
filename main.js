@@ -19,9 +19,6 @@ process.on("uncaughtException", (err) => {
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  autoIndex: true,
-  useCreateIndex: true,
-  useFindAndModify: true,
 });
 const db = mongoose.connection;
 
