@@ -3,15 +3,25 @@ const bodyParser = require("body-parser");
 const sgMail = require("@sendgrid/mail");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const app = express();
 
 // Load environment variables from .env file
 dotenv.config();
 
+process.on("uncaughtException", (err) => {
+  console.log("UNCAUGHT EXCEPTION, APP SHUTTING NOW!!");
+  console.log(err.message, err.name);
+  process.exit(1);
+});
+
 // Connect to MongoDB database using Mongoose
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  autoIndex: true,
+  useCreateIndex: true,
+  useFindAndModify: true,
 });
 const db = mongoose.connection;
 
@@ -35,6 +45,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const fromEmail = process.env.FROM_EMAIL;
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // Transactional email endpoint (one to one)
 app.post("/send-email", async (req, res) => {
