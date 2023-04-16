@@ -54,7 +54,7 @@ app.post("/send-email", async (req, res) => {
       to,
       from: fromEmail,
       subject,
-      text: message,
+      html: message,
     };
 
     await sgMail.send(msg);
