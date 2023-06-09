@@ -48,11 +48,11 @@ app.use(cors());
 // Transactional email endpoint (one to one)
 app.post("/send-email", async (req, res) => {
   try {
-    const { to, subject, message } = req.body;
+    const { to, subject, message, from } = req.body;
 
     const msg = {
       to,
-      from: fromEmail,
+      from: from ?? fromEmail,
       subject,
       html: message,
     };
