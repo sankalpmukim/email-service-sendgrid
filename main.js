@@ -57,7 +57,8 @@ app.post("/send-email", async (req, res) => {
       html: message,
     };
 
-    await sgMail.send(msg);
+    const emailResponse = await sgMail.send(msg);
+    console.log(emailResponse);
 
     // Log email data to MongoDB database
     const email = new Email({
